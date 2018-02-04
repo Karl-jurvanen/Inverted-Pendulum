@@ -1,4 +1,5 @@
-
+//Test program for linear carriage movement
+//using measurement for feedback control
 
 
 int enablePin = 11;
@@ -17,16 +18,15 @@ volatile int count;
 
 void setup()
 {
-	Serial.begin(115200);     // opens serial port, sets data rate to 9600 bps
-
+	Serial.begin(115200);    
 	pinMode(motor1, OUTPUT);
 	pinMode(motor2, OUTPUT);
 	pinMode(enablePin, OUTPUT);
 
 	count = 0;
-	pinMode(encoderI, INPUT); attachInterrupt(digitalPinToInterrupt(2), handleEncoder, CHANGE);
+	pinMode(encoderI, INPUT); 
 	pinMode(encoderQ, INPUT);
-
+	attachInterrupt(digitalPinToInterrupt(2), handleEncoder, CHANGE);
 
 	// Finding home position by driving slowly to both end positions
 	setMotor(0);
@@ -54,6 +54,10 @@ void loop()
 
 }
 
+//The motor is driven using an H-bridge. Direction is chosen with values of motor1 and motor2 pins
+//and motor speed is chosen with 0-255 value in enablePin. 
+//Function converts a single integer value to suitable motor inputs. 
+//Mapping is needed because the DC-motor does not turn at low voltages values (-80 < input < 80)
 void setMotor(int speed) 
 {
 
@@ -99,7 +103,8 @@ void setMotor(int speed)
 void handleEncoder() 
 {
 
-	//if( (PINB & _BV(PD2)) ==  (PINB & _BV(PD3)))
+	//When the strip moves through the sensor, a pulse is generated to both 
+	//encoder inputs. Comparing the inputs we can determine the direction of movement.
 	if (digitalRead(encoderI) == digitalRead(encoderQ))
 
 	{
@@ -126,6 +131,10 @@ void Delay(int interval)
 
 }
 
+//Simple way of driving the carriage to a set position using feedback from position measurement
+//Serial prints for testing
+//This type of control overshoots
+//TODO: implement proper P-control
 void driveTo(int setpoint)
 {
 	float gain = 0.08;
