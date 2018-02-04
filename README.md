@@ -7,7 +7,7 @@ The project consists of salvaging and reverse engineering a linear carriage and 
 
 [Linked video](https://gfycat.com/gifs/detail/VigilantSilentAnemoneshrimp) Shows current prototype moving the carriage to 
 randomly chosen positions
-using the program in folder random_position.
+using the test program in folder	motorPlusEncoder.
 
 The project is currently in the state that I left it over a year ago. I did not use git at the time so first thing to do is clean
 up the project structure and the project files. Right now the project has multiple detached program code files that have duplicate
